@@ -1,11 +1,13 @@
 import speech_recognition
 import pyttsx3
+import pyaudio
 
+print("Begin")
 recognizer=speech_recognition.Recognizer()
+
 
 while True:
     try:
-        
         with speech_recognition.Microphone() as mic:
             recognizer.adjust_for_ambient_noise(mic, duration=0.2)
             audio=recognizer.listen(mic)
@@ -15,4 +17,5 @@ while True:
     except:
         recognizer=speech_recognition.Recognizer()
         continue
+
         
