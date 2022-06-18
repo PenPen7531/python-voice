@@ -16,25 +16,42 @@ while name:
             text=text.split()
             if len(text) == 1:
                 print(f"Is {text[0].capitalize()} your name?")
-                answer=input("Yes/No: ")
-                if answer.lower()=="yes":
-                    print("Great lets continue")
-                    name=False
-                elif answer.lower()=="no":
-                    print("Lets try again")
-                    print("What is your name")
+                recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                audio=recognizer.listen(mic)
+                answer=recognizer.recognize_google(audio)
+                repeat=True
+                while repeat:
+                    if answer.lower()=="yes":
+                        print("Great lets continue")
+                        repeat=False
+                        name=False
+                    elif answer.lower()=="no":
+                        repeat=False
+                        print("Lets try again")
+                        print("What is your name")
+                    else:
+                        print("Sorry. I didnt understand that.")
             elif len(text) == 2:
-                print(f"Is {text[0].capitalize()} {text[1].capitalize()} your name?")
-                answer=input("Yes/No: ")
-                if answer.lower()=="yes":
-                    print("Great lets continue")
-                    name=False
-                elif answer.lower()=="no":
-                    print("Lets try again")
-                    print("What is your name")
+                repeat=True
+                while repeat:
+                    print(f"Is {text[0].capitalize()} {text[1].capitalize()} your name?")
+                    recognizer.adjust_for_ambient_noise(mic, duration=0.2)
+                    audio=recognizer.listen(mic)
+                    answer=recognizer.recognize_google(audio)
+                    if answer.lower()=="yes":
+                        print("Great lets continue")
+                        repeat=False
+                        name=False
+                    elif answer.lower()=="no":
+                        repeat=False
+                        print("Lets try again")
+                        print("What is your name")
+                    else:
+                        print("Sorry. I didnt understand that.")
                 
             else:
                 print("Sorry I didnt get that.\nPlease try again.")
+                print("What is your name?")
     except:
         recognizer=speech_recognition.Recognizer()
         continue
